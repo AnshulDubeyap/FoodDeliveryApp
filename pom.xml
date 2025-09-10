@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from a repository -->
 	</parent>
 	<groupId>com.Anshul</groupId>
-	<artifactId>foodiesapi</artifactId>
+	<artifactId>FoodDeliveryApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>FoodDeliveryApp</name>
 	<description>Spring Boot restapi for the online food delivery website </description>
