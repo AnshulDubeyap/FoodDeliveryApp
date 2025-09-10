@@ -6,10 +6,10 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.5</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/> <!-- lookup parent from a repository -->
 	</parent>
 	<groupId>com.Anshul</groupId>
-	<artifactId>FoodDeliveryApp</artifactId>
+	<artifactId>foodiesapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>FoodDeliveryApp</name>
 	<description>Spring Boot restapi for the online food delivery website </description>
