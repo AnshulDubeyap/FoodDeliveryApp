@@ -6,11 +6,15 @@ import com.Anshul.FoodDeliveryApp.io.UserResponse;
 import com.Anshul.FoodDeliveryApp.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserRepository userRepo;
@@ -30,7 +34,7 @@ public class UserServiceImpl implements UserService{
 
 	// convert userRequest to Entity
 	private UserEntity convertToEntity(UserRequest request) {
-			return UserEntity.builder().name(request.getName()).email(request.getEmail()).password(request.getPassword()).build();
+			return UserEntity.builder().name(request.getName()).email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).build();
 	}
 
 	// convert userEntity to userResponse
