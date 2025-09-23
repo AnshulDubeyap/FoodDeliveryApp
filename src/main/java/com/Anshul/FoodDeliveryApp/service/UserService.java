@@ -7,9 +7,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public interface UserService {
 
-
-
-
 	// register user
 	UserResponse registerUser(UserRequest request);
+
+	// get current user
+	String findByUserId();
 }

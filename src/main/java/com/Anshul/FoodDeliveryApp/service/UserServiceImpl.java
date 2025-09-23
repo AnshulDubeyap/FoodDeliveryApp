@@ -6,6 +6,7 @@ import com.Anshul.FoodDeliveryApp.io.UserResponse;
 import com.Anshul.FoodDeliveryApp.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserRepository userRepo;
 
+	@Autowired
+	private AuthenticationFacade authenticationFacade;
+
 	@Override
 	public UserResponse registerUser(UserRequest request) {
 
@@ -30,6 +34,18 @@ public class UserServiceImpl implements UserService{
 
 		// convert userEntity to userResponse
 		return convertToResponse(newUser);
+	}
+
+	@Override
+	public String findByUserId() {
+		// get logged in user email
+		String loggedInUserEmail = authenticationFacade.getAuthentication().getName();
+
+		// get user by email
+		UserEntity loggedInUser = userRepo.findByEmail(loggedInUserEmail).orElseThrow(()-> new RuntimeException("User not found with email: " + loggedInUserEmail));
+
+		return loggedInUser.getId();
+
 	}
 
 	// convert userRequest to Entity
