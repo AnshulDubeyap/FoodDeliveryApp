@@ -53,8 +53,11 @@ public class OrderServiceImpl implements OrderService {
 		// Create the Razorpay order
 		RazorpayClient razorpayClient = new RazorpayClient(RAZORPAY_KEY, RAZORPAY_SECRET);
 
+		// Convert rupees to paise (integer)
+		int amountInPaise = (int) Math.round(newOrder.getAmount() * 100);
+
 		JSONObject orderRequest = new JSONObject();
-		orderRequest.put("amount", newOrder.getAmount());
+		orderRequest.put("amount", amountInPaise);
 		orderRequest.put("currency", "INR");
 		orderRequest.put("payment_capture", 1);
 

@@ -51,10 +51,11 @@ public class SecurityConfig {
 		// Disable form login
 		http.formLogin(AbstractHttpConfigurer::disable);
 
-		// Allow register, login, foods APIs, and preflight OPTIONS requests
+		// Allow register, login, foods APIs, admin routes, and preflight OPTIONS requests
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // allow preflight
 				.requestMatchers("/api/register", "/api/login", "/api/foods/**").permitAll()
+				.requestMatchers("/api/orders/all", "/api/orders/status/**").permitAll() // allow admin routes
 				.anyRequest().authenticated()
 		);
 
@@ -77,7 +78,7 @@ public class SecurityConfig {
 	@Bean
 	public CorsFilter corsFilter() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of("http://localhost:5173","http://localhost:5174"));
+		configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5174"));
 		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 		configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
 		configuration.setAllowCredentials(true);
@@ -92,7 +93,6 @@ public class SecurityConfig {
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
 		return authConfig.getAuthenticationManager();
 	}
-
 
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
