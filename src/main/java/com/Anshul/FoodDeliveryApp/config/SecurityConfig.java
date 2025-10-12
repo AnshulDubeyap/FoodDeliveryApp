@@ -31,54 +31,39 @@ import java.util.List;
 @AllArgsConstructor
 public class SecurityConfig {
 
-	// UserDetailsService
 	private final AppUserDetailsService userDetailsService;
-
-	// JWT Util
 	private final JWTUtil jwtUtil;
-
-	// JWT Authentication Filter
 	private final JWTAuthenticationFilter jwtAuthenticationFilter;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		// Enable CORS
-		http.cors(Customizer.withDefaults());
-
-		// Disable CSRF
-		http.csrf(AbstractHttpConfigurer::disable);
-
-		// Disable form login
-		http.formLogin(AbstractHttpConfigurer::disable);
-
-		// Allow register, login, foods APIs, admin routes, and preflight OPTIONS requests
-		http.authorizeHttpRequests(auth -> auth
-				.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // allow preflight
-				.requestMatchers("/api/register", "/api/login", "/api/foods/**").permitAll()
-				.requestMatchers("/api/orders/all", "/api/orders/status/**").permitAll() // allow admin routes
-				.anyRequest().authenticated()
-		);
-
-		// Stateless session management
-		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-		// Add JWT Authentication Filter
-		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+		http.cors(Customizer.withDefaults())
+				.csrf(AbstractHttpConfigurer::disable)
+				.formLogin(AbstractHttpConfigurer::disable)
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+						.requestMatchers("/api/register", "/api/login", "/api/foods/**").permitAll()
+						.requestMatchers("/api/orders/all", "/api/orders/status/**").permitAll()
+						.anyRequest().authenticated()
+				)
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 
-	// Password Encoder
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
-	// CORS Filter allowing all origins (fixes forbidden login from frontend)
 	@Bean
 	public CorsFilter corsFilter() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5174"));
+		configuration.setAllowedOrigins(List.of(
+				"http://localhost:5173",
+				"http://localhost:5174",
+				"https://food-client-djz1ah0ga-anshul-dubeys-projects-232f4ca3.vercel.app"
+		));
 		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 		configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
 		configuration.setAllowCredentials(true);
@@ -88,7 +73,6 @@ public class SecurityConfig {
 		return new CorsFilter(source);
 	}
 
-	// AuthenticationManager for JWT and login
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
 		return authConfig.getAuthenticationManager();
