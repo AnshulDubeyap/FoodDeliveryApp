@@ -1,0 +1,73 @@
+# Version control
+.git/
+.gitignore
+.hg/
+.svn/
+.gitattributes
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build outputs and artifacts
+target/
+dist/
+build/
+out/
+
+# Java build artifacts
+*.class
+.gradle/
+
+# Test and debug files
+test/
+tests/
+debug/
+*.log
+
+# Temporary and local files
+tmp/
+temp/
+*.tmp
+.local/
+local/
+
+# Environment and secrets
+.env*
+*.env
+*.pem
+*.key
+*.crt
+config.local.*
+*.local.yml
+
+# Documentation
+README*
+docs/
+*.md
+
+# Docker files
+Dockerfile*
+docker-compose*
+
+# Project-specific
+FoodiesAPI.postman_collection.json
+
+# Node.js (for completeness, if any)
+node_modules/
+npm-debug.log
+yarn-debug.log
+
+# Python (for completeness, if any)
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.coverage
+
+# Go (for completeness, if any)
+/vendor/
+*.test
+.go-cache/
