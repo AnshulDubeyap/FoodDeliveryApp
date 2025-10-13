@@ -23,7 +23,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -59,11 +58,7 @@ public class SecurityConfig {
 	@Bean
 	public CorsFilter corsFilter() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of(
-				"http://localhost:5173",
-				"http://localhost:5174",
-				"https://food-client-djz1ah0ga-anshul-dubeys-projects-232f4ca3.vercel.app"
-		));
+		configuration.addAllowedOrigin("*"); // Allows requests from any origin
 		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 		configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
 		configuration.setAllowCredentials(true);
